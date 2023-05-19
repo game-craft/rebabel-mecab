@@ -1,20 +1,20 @@
 import MeCab
 from fastapi import FastAPI
-from pydantic import BaseModel
-
-class WordItem(BaseModel):
-    id: int
-    word: str
+from typing import List
 
 APP = FastAPI()
 WAKATI = MeCab.Tagger("-Owakati")
 
 @APP.post("/analysis")
-async def analysis(word_item: WordItem):
-    wakati = WAKATI.parse(word_item.word).split()
-    response = {
-        "id": word_item.id,
-        "word_list": wakati
-    }
+async def analysis(word_item: List[dict]):
+    response_data = []
 
-    return response
+    for i in range(len(word_item)):
+        wakati = WAKATI.parse(word_item[i]["word"]).split()
+        data = {
+            "id": word_item[i]["id"],
+            "word_list": wakati
+        }
+        response_data.append(data)
+
+    return response_data
