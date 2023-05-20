@@ -12,7 +12,7 @@ async def analysis(word_item: List[dict]):
     for i in range(len(word_item)):
         wakati = WAKATI.parse(word_item[i]["word"]).split()
         data = {
-            "id": word_item[i]["id"],
+            "worlds_id": word_item[i]["worlds_id"],
             "word_list": wakati
         }
         response_data.append(data)
